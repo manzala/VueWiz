@@ -7,5 +7,5 @@ pip install -r requirements.txt
 ## run with
 ```
 cd Vue
-python manage.py
+python manage.py runserver
 ```
