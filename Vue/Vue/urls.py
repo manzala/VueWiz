@@ -5,6 +5,7 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'Vue.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^$', include('VueWiz.urls')),
     url(r'^admin/', include(admin.site.urls)),
+
 ]
