@@ -20,11 +20,11 @@ def signup(request):
         if form.is_valid():
             userObj = form.cleaned_data
             print(userObj)
-            username = userObj['username']
+            email = userObj['email']
             password = userObj['password']
-            if not (User.objects.filter(username=username).exists()):
-                User.objects.create_user(username, email=None, password=password)
-                user = authenticate(username=username, password=password)
+            if not (User.objects.filter(email=email).exists()):
+                User.objects.create_user(username=email,email=email, password=password)
+                user = authenticate(username=email,email=email,  password=password)
                 login(request,user)
                 return HttpResponseRedirect('signup')
             else:
@@ -39,10 +39,10 @@ def signin(request):
         if form.is_valid():
             userObj = form.cleaned_data
             print(userObj)
-            username = userObj['username']
+            email = userObj['email']
             password = userObj['password']
 
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=email,email=email,  password=password)
             if(user):
                 login(request, user)
                 return HttpResponse("WELCOME DUD")

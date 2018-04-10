@@ -9,9 +9,9 @@ from django.db import models
 
 
 class UserRegistrationForm(forms.Form):
-    username = forms.CharField(
+    email= forms.CharField(
         required = True,
-        label = 'Username',
+        label = 'Email',
         max_length = 32
 	)
     password = forms.CharField(
