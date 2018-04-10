@@ -14,6 +14,12 @@ from django.http import HttpResponse
 def index(request):
     return render(request, template_name="index.html", context={"done": True})
 
+def done(request):
+    return render(request, template_name="done.html")
+
+def error(request):
+    return render(request, template_name="error.html")
+
 def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -25,13 +31,14 @@ def signup(request):
             if not (User.objects.filter(email=email).exists()):
                 User.objects.create_user(username=email,email=email, password=password)
                 user = authenticate(username=email,email=email,  password=password)
-                login(request,user)
-                return HttpResponseRedirect('signup')
+                # login(request,user)
+                return HttpResponseRedirect('done')
             else:
-                raise forms.ValidationError('Looks like a username with that email or password already exists')
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'signup.html', {'form': form})
+                return HttpResponseRedirect('error')
+                # raise forms.ValidationError('Looks like a username with that email or password already exists')
+    return HttpResponseRedirect('/#contact')
+    #     form = UserRegistrationForm()
+    # return render(request, 'signup.html', {'form': form})
 
 def signin(request):
     if request.method == "POST":
