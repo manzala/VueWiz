@@ -43,8 +43,9 @@ def signin(request):
             password = userObj['password']
 
             user = authenticate(username=username, password=password)
-            login(request, user)
-            return HttpResponse("WELCOME DUD")
+            if(user):
+                login(request, user)
+                return HttpResponse("WELCOME DUD")
         else:
             raise forms.ValidationError('Looks like BAD PASSWORD DUD')
     else:
