@@ -9,7 +9,8 @@ from django.db import models
 
 
 class UserRegistrationForm(forms.Form):
-    email= forms.CharField(
+    email= forms.EmailField(
+
         required = True,
         label = 'Email',
         max_length = 32
