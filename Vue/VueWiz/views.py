@@ -51,8 +51,3 @@ def signin(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'signin.html', {'form': form})
-
-
-
-def creative(request):
-    return render(request, template_name="creative.html", context={})
