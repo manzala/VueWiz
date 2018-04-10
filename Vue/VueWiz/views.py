@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from models import UserRegistrationForm
+from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
@@ -31,4 +32,24 @@ def signup(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'signup.html', {'form': form})
+
+def signin(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            userObj = form.cleaned_data
+            print(userObj)
+            username = userObj['username']
+            password = userObj['password']
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponse("WELCOME DUD")
+        else:
+            raise forms.ValidationError('Looks like BAD PASSWORD DUD')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'signin.html', {'form': form})
+
+
 
