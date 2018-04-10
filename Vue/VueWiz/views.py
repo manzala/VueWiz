@@ -53,3 +53,5 @@ def signin(request):
 
 
 
+def creative(request):
+    return render(request, template_name="creative.html", context={})
