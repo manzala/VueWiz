@@ -9,6 +9,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from models import UserRegistrationForm
 from django.http import HttpResponse
+from models import upload
 
 # Create your views here.
 def index(request):
@@ -52,9 +53,22 @@ def signin(request):
             user = authenticate(username=email,email=email,  password=password)
             if(user):
                 login(request, user)
-                return HttpResponse("WELCOME DUD")
+                return render(request, 'upload.html', {'form': form})
         else:
             raise forms.ValidationError('Looks like BAD PASSWORD DUD')
     else:
         form = UserRegistrationForm()
     return render(request, 'signin.html', {'form': form})
+
+def upload(request):
+    if request.method == 'POST':
+        form = upload(request.POST, request.FILES)
+        if form.is_valid():
+            instance = upload(request.FILES['file'])
+            instance.save()
+            upload()
+            return HttpResponseRedirect('/done')
+    else:
+        form = upload()
+    return render(request, 'upload.html', {'form': form})
+

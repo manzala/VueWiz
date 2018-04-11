@@ -29,6 +29,20 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+
+STATICFILES_DIRS = (
+    os.path.dirname("static"),
+)
+
+MEDIA_ROOT = (
+    os.path.dirname('media'),
+)
+
+
+STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -56,7 +70,7 @@ ROOT_URLCONF = 'Vue.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,14 +114,3 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "VueWiz", "static"),
-)
-
-SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
-
-TEMPLATE_DIRS = (
-    os.path.join(SETTINGS_PATH, 'templates'),
-)

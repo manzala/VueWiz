@@ -21,3 +21,7 @@ class UserRegistrationForm(forms.Form):
         max_length = 32,
         widget = forms.PasswordInput()
     )
+
+
+class upload(forms.Form):
+    upload= forms.FileField()
