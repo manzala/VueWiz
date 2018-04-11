@@ -9,3 +9,8 @@
     /* width: 100%; */
     z-index: 20;
 }
+
+.signin-page {
+    box-sizing: border-box;
+    padding-top: 48px;
+}

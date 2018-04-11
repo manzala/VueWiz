@@ -27,7 +27,9 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body id="page-top">
-    {% include "partials/header.html" %}
+    {% block nav %}
+        {% include "partials/header.html" %}
+    {% endblock %}
     {% block content %}{% endblock %}
     {% include "partials/footer.html" %}
 </body>
