@@ -1,1 +1,1 @@
-web: cd Vue; python manage.py runserver
+web: python Vue/manage.py runserver
