@@ -7,9 +7,10 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from models import UserRegistrationForm
+from forms import UserRegistrationForm
 from django.http import HttpResponse
-from models import upload
+from models import uploadModel
+from forms import uploadForm
 
 # Create your views here.
 def index(request):
@@ -62,13 +63,17 @@ def signin(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = upload(request.POST, request.FILES)
+        form = uploadForm(request.POST, request.FILES)
+        print "Hi"
         if form.is_valid():
-            instance = upload(request.FILES['file'])
-            instance.save()
-            upload()
-            return HttpResponseRedirect('/done')
+            userObj= form.cleaned_data
+            print "hi"
+            pdfFile= userObj['file']
+            uploadmodel = uploadModel()
+            uploadModel.pdfFile = pdfFile
+            uploadmodel.save()
+            return HttpResponse('image upload success')
     else:
-        form = upload()
+        form = uploadForm()
     return render(request, 'upload.html', {'form': form})
 
