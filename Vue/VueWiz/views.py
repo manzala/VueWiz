@@ -9,7 +9,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from forms import UserRegistrationForm
 from django.http import HttpResponse
-from models import uploadModel
+from models import ResumeModel
 from forms import uploadForm
 from django.conf import settings
 from django.core.files.storage import default_storage
@@ -71,9 +71,9 @@ def upload(request):
             userObj= form.cleaned_data
             print "hi"
             pdfFile= userObj['uploadField'] #looks at html name
-            uploadmodel = uploadModel()
-            uploadModel.pdfFile = pdfFile
-            uploadmodel.save()
+            resumeModel = ResumeModel()
+            resumeModel.pdfFile = pdfFile
+            resumeModel.save()
             return HttpResponse('image upload success')
     else:
         form = uploadForm()

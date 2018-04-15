@@ -24,6 +24,5 @@ class UserRegistrationForm(forms.Form):
 
 class uploadForm(forms.Form):
     uploadField = forms.FileField(
-
         required = True,
     )
