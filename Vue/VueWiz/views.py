@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render
-
+import os
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -11,6 +11,8 @@ from forms import UserRegistrationForm
 from django.http import HttpResponse
 from models import uploadModel
 from forms import uploadForm
+from django.conf import settings
+from django.core.files.storage import default_storage
 
 # Create your views here.
 def index(request):
@@ -68,7 +70,7 @@ def upload(request):
         if form.is_valid():
             userObj= form.cleaned_data
             print "hi"
-            pdfFile= userObj['file']
+            pdfFile= userObj['uploadField'] #looks at html name
             uploadmodel = uploadModel()
             uploadModel.pdfFile = pdfFile
             uploadmodel.save()
@@ -77,3 +79,7 @@ def upload(request):
         form = uploadForm()
     return render(request, 'upload.html', {'form': form})
 
+def file_upload(request):
+    save_path = os.path.join(settings.MEDIA_ROOT, 'media', request.FILES['file'])
+    path = default_storage.save(save_path, request.FILES['file'])
+    return default_storage.path(path)

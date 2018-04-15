@@ -36,16 +36,18 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-MEDIA_ROOT = (
-    os.path.dirname('media'),
-)
-
-
-STATIC_URL = '/static/'
 STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
 
+#MEDIA_ROOT = (
+ #  os.path.dirname('../VueWiz/media'),
+#)
+MEDIA_ROOT  = './VueWiz'
 MEDIA_URL = '/media/'
+
+
+
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',
