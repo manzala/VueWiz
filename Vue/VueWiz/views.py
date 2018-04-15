@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.shortcuts import render
-
+import os
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from models import UserRegistrationForm
+from forms import UserRegistrationForm
 from django.http import HttpResponse
-from models import upload
+from models import uploadModel
+from forms import uploadForm
+from django.conf import settings
+from django.core.files.storage import default_storage
 
 # Create your views here.
 def index(request):
@@ -62,13 +65,21 @@ def signin(request):
 
 def upload(request):
     if request.method == 'POST':
-        form = upload(request.POST, request.FILES)
+        form = uploadForm(request.POST, request.FILES)
+        print "Hi"
         if form.is_valid():
-            instance = upload(request.FILES['file'])
-            instance.save()
-            upload()
-            return HttpResponseRedirect('/done')
+            userObj= form.cleaned_data
+            print "hi"
+            pdfFile= userObj['uploadField'] #looks at html name
+            uploadmodel = uploadModel()
+            uploadModel.pdfFile = pdfFile
+            uploadmodel.save()
+            return HttpResponse('image upload success')
     else:
-        form = upload()
+        form = uploadForm()
     return render(request, 'upload.html', {'form': form})
 
+def file_upload(request):
+    save_path = os.path.join(settings.MEDIA_ROOT, 'media', request.FILES['file'])
+    path = default_storage.save(save_path, request.FILES['file'])
+    return default_storage.path(path)

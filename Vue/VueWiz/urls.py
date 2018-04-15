@@ -2,6 +2,9 @@ from django.conf.urls import url
 
 from . import views
 
+from django.conf import settings
+
+
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^done', views.done, name='done'),
@@ -10,4 +13,4 @@ urlpatterns = [
     url(r'^signin', views.signin, name='signin'),
     url(r'^upload', views.upload, name='upload')
 
-]
+] 
