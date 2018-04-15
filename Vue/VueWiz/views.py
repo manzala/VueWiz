@@ -56,7 +56,7 @@ def signin(request):
             user = authenticate(username=email,email=email,  password=password)
             if(user):
                 login(request, user)
-                return render(request, 'upload.html', {'form': form})
+                return HttpResponseRedirect('/upload')
         else:
             raise forms.ValidationError('Looks like BAD PASSWORD DUD')
     else:
@@ -72,7 +72,8 @@ def upload(request):
             print "hi"
             pdfFile= userObj['uploadField'] #looks at html name
             resumeModel = ResumeModel()
-            resumeModel.pdfFile = pdfFile
+            resumeModel.user = request.user
+            resumeModel.file = pdfFile
             resumeModel.save()
             return HttpResponse('image upload success')
     else:
