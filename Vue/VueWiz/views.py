@@ -23,7 +23,28 @@ def index(request):
     return render(request, template_name="index.html", context={"done": True})
 
 def done(request):
-    return render(request, template_name="done.html")
+    return render(request, template_name="done.html", )
+
+def profile(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    resume = ResumeModel.objects.get(user=request.user)
+    print(resume.id)
+    return render(request, template_name="profile.html", context={"resume": resume})
+
+# is protected by user login but needs to have user level premissions
+def media(request, path):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    file_path = os.path.join(settings.MEDIA_ROOT, 'media', path)
+    print('path: {}'.format(path))
+    print('file_path: {}'.format(file_path))
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/pdf")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    return HttpResponseRedirect('/')
 
 def error(request):
     return render(request, template_name="error.html")
@@ -40,9 +61,9 @@ def signup(request):
                 User.objects.create_user(username=email,email=email, password=password)
                 user = authenticate(username=email,email=email,  password=password)
                 # login(request,user)
-                return HttpResponseRedirect('done')
+                return HttpResponseRedirect('/done')
             else:
-                return HttpResponseRedirect('error')
+                return HttpResponseRedirect('/error')
                 # raise forms.ValidationError('Looks like a username with that email or password already exists')
     return HttpResponseRedirect('/#contact')
     #     form = UserRegistrationForm()
@@ -67,7 +88,7 @@ def signin(request):
         form = UserRegistrationForm()
     return render(request, 'signin.html', {'form': form})
 
-def resumeUpload(request):
+def upload_resume(request):
     if request.method == 'POST':
         form = uploadForm(request.POST, request.FILES)
         print "Hi"
@@ -79,17 +100,10 @@ def resumeUpload(request):
             resumeModel.user = request.user
             resumeModel.file = pdfFile
             resumeModel.save()
-            return HttpResponse('image upload success')
-    else:
-        form = uploadForm()
-    return render(request, 'upload.html', {'form': form})
+            return HttpResponseRedirect("/profile")
+    return HttpResponseRedirect("/profile")
 
-def file_upload(request):
-    save_path = os.path.join(settings.MEDIA_ROOT, 'media', request.FILES['file'])
-    path = default_storage.save(save_path, request.FILES['file'])
-    return default_storage.path(path)
-
-def videoUpload(request):
+def upload_video(request):
     if request.method == 'POST':
         form = videoForm(request.POST, request.FILES)
         print "Hi"

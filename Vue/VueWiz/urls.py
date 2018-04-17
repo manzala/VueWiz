@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^error', views.error, name='error'),
     url(r'^signup', views.signup, name='signup'),
     url(r'^signin', views.signin, name='signin'),
-    url(r'^upload', views.resumeUpload, name='upload'),
-    url(r'^video', views.videoUpload, name='video')
-] 
+    url(r'^upload_resume', views.upload_resume, name='upload_resume'),
+    url(r'^video', views.upload_video, name='upload_video'),
+    url(r'^profile', views.profile, name='profile'),
+    url(r'^media/(?P<path>\w{0,100}.pdf)', views.media, name='media')
+]

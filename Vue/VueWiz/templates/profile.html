@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block nav %}
+    {% include 'partials/navbar2.html' %}
+{% endblock %}
+{% block content %}
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1 class="display-4">Welcome {{ user.email }} !</h1>
+            {% if intro_video %}
+                <p class="lead">
+                    {{intro_video}}
+                </p>
+            {% else %}
+                <p class="lead">
+                    No Intro Video currently uploaded!
+                </p>
+                <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                        <label class="custom-file-label" for="validatedCustomFile">Choose Video...</label>
+                        <div class="invalid-feedback">File needs to be a Video.</div>
+                    </div>
+                    <input class="btn btn-primary btn-lg mt-4" type="submit" value="Submit" />
+                </form>
+            {% endif %}
+        <hr class="my-4">
+        
+        {% if resume %}
+            <embed src="/{{ resume.file }}" width="100%" height="800px" />
+        {% else %}
+            <p>
+                No resume currently uploaded!
+            </p>
+            <form action="/upload_resume" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                    <label class="custom-file-label" for="validatedCustomFile">Choose Resume...</label>
+                    <div class="invalid-feedback">File needs to be a PDF.</div>
+                </div>
+                <input class="btn btn-primary btn-lg mt-4" type="submit" value="Submit" />
+            </form>
+        {% endif %}
+    </div>
+</div>
+<script>
+    $('.custom-file-input').on('change', function() {
+        let fileName = $(this).val().split('\\').pop();
+        $(this).siblings('.custom-file-label').addClass("selected").html(fileName);
+    });
+</script>
+{% endblock %}
