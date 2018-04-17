@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block nav %}
+    {% include 'partials/navbar2.html' %}
+{% endblock %}
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <p>
+      <input id="id_image" type="file" class="" name="videoField">
+  </p>
+  <input type="submit" value="Submit" />
+  <p> Thanks</p>
+</form>
+
+
+{% endblock %}

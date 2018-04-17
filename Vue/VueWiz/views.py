@@ -9,10 +9,14 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from forms import UserRegistrationForm
 from django.http import HttpResponse
+from models import VideoModel
 from models import ResumeModel
 from forms import uploadForm
+from forms import videoForm
 from django.conf import settings
 from django.core.files.storage import default_storage
+
+
 
 # Create your views here.
 def index(request):
@@ -63,7 +67,7 @@ def signin(request):
         form = UserRegistrationForm()
     return render(request, 'signin.html', {'form': form})
 
-def upload(request):
+def resumeUpload(request):
     if request.method == 'POST':
         form = uploadForm(request.POST, request.FILES)
         print "Hi"
@@ -84,3 +88,24 @@ def file_upload(request):
     save_path = os.path.join(settings.MEDIA_ROOT, 'media', request.FILES['file'])
     path = default_storage.save(save_path, request.FILES['file'])
     return default_storage.path(path)
+
+def videoUpload(request):
+    if request.method == 'POST':
+        form = videoForm(request.POST, request.FILES)
+        print "Hi"
+        if form.is_valid():
+            userObj= form.cleaned_data
+            print "hi"
+            videoFile= userObj['videoField'] #looks at html name
+            introVideoModel = VideoModel()
+            introVideoModel.user = request.user
+            introVideoModel.file = videoFile
+            ext = os.path.splitext(str(videoFile))
+            if(ext is '.mp4' or ext is '.MP4'):
+                introVideoModel.save()
+                return HttpResponse('video upload success')
+            else:
+                return HttpResponse("This isnt mp4 DUFUS !")
+    else:
+        form = videoForm()
+    return render(request, 'upload_video.html', {'form': form})

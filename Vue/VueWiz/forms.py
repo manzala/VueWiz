@@ -26,3 +26,7 @@ class uploadForm(forms.Form):
     uploadField = forms.FileField(
         required = True,
     )
+class videoForm(forms.Form):
+    videoField = forms.FileField(
+        required = True,
+    )
